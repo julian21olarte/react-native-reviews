@@ -1,21 +1,19 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import * as Font from 'expo-font'
+import AppLoading from 'expo-app-loading';
+import { HomeStack } from './routes/HomeStack';
+
+const getFonts = () => Font.loadAsync({
+  'nunito-regular': 'https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap'
+})
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [fontsLoaded, setFontsLoaded] = useState(false)
+  return fontsLoaded
+    ? <HomeStack />
+    : <AppLoading
+        startAsync={getFonts}
+        onFinish={() => setFontsLoaded(true)}
+        onError={(e) => console.log(e)}
+      />
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
